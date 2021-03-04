@@ -2,6 +2,8 @@ package com.ywparkdev.microservices.currencyexchangeservice.controller;
 
 import com.ywparkdev.microservices.currencyexchangeservice.bean.CurrencyExchange;
 import com.ywparkdev.microservices.currencyexchangeservice.repository.CurrencyExchangeRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,8 @@ import java.math.BigDecimal;
 @RestController
 public class CurrencyExchangeController {
 
+    private static Logger log = LoggerFactory.getLogger(CurrencyExchangeController.class);
+
     @Autowired
     private CurrencyExchangeRepository repository;
 
@@ -23,6 +27,8 @@ public class CurrencyExchangeController {
     public CurrencyExchange retrieveExchangeValue(
             @PathVariable String from,
             @PathVariable String to) {
+        log.info("retrieveExchangeValue called with {} to {}", from, to);
+
         String port = environment.getProperty("local.server.port");
         CurrencyExchange currencyExchange = repository.findByFromAndTo(from, to);
 
